@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vynce AI — Loading...</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0f0f0f;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+    }
+    .loader {
+        margin-top: 20px;
+        border: 6px solid #333;
+        border-top: 6px solid #00d4ff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+</head>
+
+<body>
+
+<h2>Vynce AI — Loading...</h2>
+<p>Please Wait...</p>
+<p>Made by Vynce Pvt. Ltd. With ❤️</p>
+<p>Founded by Archit Chaudhary, From Bethany Convent School</p>
+
+<div class="loader"></div>
+
+<script>
+// Base64 encoded link (your website link)
+const encodedLink = "aHR0cHM6Ly9zb3VuZC12eW5jZS1jb3B5LTgzMTZmOGFlLmJhc2U0NC5hcHAv";
+
+// Decode the Base64 link
+const decodedLink = atob(encodedLink);
+
+// Redirect after 3 seconds
+setTimeout(() => {
+    window.location.href = decodedLink;
+}, 3000);
+</script>
+
+</body>
+</html>
