@@ -1,136 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Vynce AI — Loading...</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vynce AI — Sound Chapter</title>
+  <style>
     html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #000;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        color: white;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #0d0d0d;
+      font-family: Arial, sans-serif;
     }
 
-    /* LOADING SCREEN */
-    #loading-screen {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(135deg, #000000, #0a0a0a, #1a1a1a);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        z-index: 9999;
-        animation: bgPulse 4s infinite alternate;
+    /* Loading Screen */
+    #loading {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a1a, #000000);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 9999;
+      animation: fadeIn 0.6s ease-out;
     }
 
-    @keyframes bgPulse {
-        0% { background-color: #000000; }
-        100% { background-color: #111111; }
-    }
-
-    .title {
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        animation: fadeIn 1.5s ease-out;
-    }
-
-    .sub {
-        font-size: 16px;
-        margin-bottom: 20px;
-        animation: fadeIn 2s ease-out;
-    }
-
-    .credit {
-        font-size: 13px;
-        opacity: 0.7;
-        animation: fadeIn 2.5s ease-out;
-    }
-
-    /* Loader circle */
-    .loader {
-        width: 70px;
-        height: 70px;
-        border: 6px solid rgba(255, 255, 255, 0.2);
-        border-top-color: #00eaff;
-        border-radius: 50%;
-        animation: spin 1.2s linear infinite;
-        margin-top: 25px;
+    /* Spinner */
+    .spinner {
+      width: 65px;
+      height: 65px;
+      border: 6px solid #333;
+      border-top-color: #00d4ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 25px;
     }
 
     @keyframes spin {
-        to { transform: rotate(360deg); }
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Fade out animation */
-    .fade-out {
-        animation: fadeOut 1s forwards;
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
     @keyframes fadeOut {
-        to { opacity: 0; visibility: hidden; }
+      from { opacity: 1; }
+      to   { opacity: 0; }
     }
 
-    /* Iframe full screen */
-    #mainFrame {
-        width: 100%;
-        height: 100%;
-        border: none;
-        display: none;
+    /* Fullscreen iFrame */
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
     }
-</style>
+  </style>
 </head>
-
 <body>
 
-<!-- Loading Screen -->
-<div id="loading-screen">
-    <div class="title">Vynce AI — Loading...</div>
-    <div class="sub">Please Wait...</div>
-    <div class="credit">Made by Vynce Pvt. Ltd. With ❤️<br>
-    Founded by Archit Chaudhary, From Bethany Convent School</div>
-
-    <div class="loader"></div>
+<div id="loading">
+  <div class="spinner"></div>
+  <h2>Vynce AI — Loading...</h2>
+  <p>Please Wait...</p>
+  <br>
+  <p style="opacity: 0.8;">
+    Made by <b>Vynce Pvt. Ltd.</b> With ❤️<br>
+    Founded by <b>Archit Chaudhary</b><br>
+    From <b>Bethany Convent School</b>
+  </p>
 </div>
 
-<!-- Iframe -->
-<iframe id="mainFrame"></iframe>
+<!-- Fullscreen iframe -->
+<iframe id="frame"></iframe>
 
 <script>
-// Your Base64 encoded link
-const encoded = "aHR0cHM6Ly9zb3VuZC12eW5jZS1jb3B5LTgzMTZmOGFlLmJhc2U0NC5hcHAv";
+  // Your website link encoded in Base64
+  const base64Link = "aHR0cHM6Ly9zb3VuZC12eW5jZS1jb3B5LTgzMTZmOGFlLmJhc2U0NC5hcHAv";
 
-// Decode the URL
-const url = atob(encoded);
+  // Decode it
+  const finalURL = atob(base64Link);
 
-// After loading, show the iframe in fullscreen
-setTimeout(() => {
-    document.getElementById("mainFrame").src = url;
+  const iframe = document.getElementById("frame");
+  iframe.src = finalURL;
 
-    // Fade out loading screen
-    document.getElementById("loading-screen").classList.add("fade-out");
+  // When iframe finishes loading → hide loading screen
+  iframe.onload = function () {
+    // Smooth fade-out
+    document.getElementById("loading").style.animation = "fadeOut 0.8s forwards";
 
-    // Show the iframe slightly later (after fade-out)
+    // After fade-out → show iframe
     setTimeout(() => {
-        document.getElementById("mainFrame").style.display = "block";
-    }, 1000);
-
-}, 3000);
+      document.getElementById("loading").style.display = "none";
+      iframe.style.display = "block";
+    }, 800);
+  };
 </script>
 
 </body>
